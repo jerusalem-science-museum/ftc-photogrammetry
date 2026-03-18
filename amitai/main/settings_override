@@ -1,0 +1,16 @@
+{
+    "Texturing": {
+        "colorMapping": {
+            "enable": true,
+            "colorMappingFileType": "png"
+        },
+        "textureSide": 4096,
+        "downscale": 4
+    },
+    "MeshFiltering": {
+        "keepLargestMeshOnly": true
+    },
+    "DepthMap_1": {
+        "downscale": 4
+    }
+}
