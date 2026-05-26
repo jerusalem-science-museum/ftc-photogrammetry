@@ -1,0 +1,9 @@
+# Core image processing and display
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# Advanced image formatting for the display UI
+Pillow>=10.0.0
+
+# System communication utilities
+tqdm>=4.65.0
