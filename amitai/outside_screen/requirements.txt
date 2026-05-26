@@ -1,9 +1,12 @@
-# Core image processing and display
+# Game engine / UI rendering engine
+pygame>=2.5.0
+
+# Core image processing and array handling
 opencv-python>=4.8.0
 numpy>=1.24.0
 
-# Advanced image formatting for the display UI
+# Image asset manipulation
 Pillow>=10.0.0
 
-# System communication utilities
+# Utilities
 tqdm>=4.65.0
