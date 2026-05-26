@@ -1,4 +1,0 @@
-pygame
-opencv-python
-pywavefront
-PyOpenGL
