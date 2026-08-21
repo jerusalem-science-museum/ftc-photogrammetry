@@ -1,10 +1,10 @@
 
-photogrammetry_data_path = r'/mnt/shared_in/photogrammetry_data'
+photogrammetry_data_path = r'test_models'
 obj_path = r'output/texturedMesh.obj'  # DO NOT CHANGE
 texture_path = r'output/texture_1001.png'  # DO NOT CHANGE
 
 TIME_TO_WAIT_FOR_NEW_MODEL = 4  # seconds - the time to wait when a new model is detected in the photogrammetry_data_path (to allow the model to be fully written)
-borders = [0,0]  # the precentage of screen (0.1 = 10%) from the sides (width and height axis) that will be used only for buttons (will not move the object)
+borders = [0,0]  # the precentage of screen (0.1 = 10%) from the sides (width and height axis) that will be used to move the object
 # currently 0 because we allow the whole screen to be used for moving the object (no buttons)
 
 time_to_idle = 10  # seconds - the time to wait before the model starts rotating automatically (when no user input is detected)

@@ -121,7 +121,17 @@ class OBJ:
         glCallList(self.gl_list)
 
     def free(self):
-        glDeleteLists([self.gl_list])
+        if self.gl_list:
+            glDeleteLists(self.gl_list, 1)
+            self.gl_list = 0
+
+        texture_ids = {
+            material.get("texture_Kd")
+            for material in getattr(self, "mtl", {}).values()
+            if material.get("texture_Kd")
+        }
+        for texture_id in texture_ids:
+            glDeleteTextures([texture_id])
 
 
 

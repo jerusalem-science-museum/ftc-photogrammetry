@@ -2,8 +2,8 @@
 Version=1.0
 Name=Outside Screen Photogrammetry
 Comment=Launches photogrammetry outside program
-Exec=/usr/bin/python3 /home/mada/Photogrammetry/outside_screen/main.py
-Icon=/home/mada/Photogrammetry/outside_screen/pictures/tv.png
+Exec=/usr/bin/python3 /path/to/ftc-photogrammetry/outside_screen/main.py
+Icon=/path/to/ftc-photogrammetry/outside_screen/pictures/tv.png
 Terminal=true
 Type=Application
 Categories=Utility;
