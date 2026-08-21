@@ -14,6 +14,10 @@ from run_camera import *
 from run_meshroom import *
 from objloader import *
 
+import os
+
+os.umask(0)
+
 def init_model(obj_file):
     global screen, viewport, output_directory, rx, ry, rz, zpos, obj, state
     # pygame.display.quit()
