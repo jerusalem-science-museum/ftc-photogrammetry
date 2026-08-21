@@ -92,3 +92,59 @@ In `consts.py`:
 
 For production, `photogrammetry_data_path` should usually point to the shared
 directory. For local testing, it can point to `test_models`.
+
+## Automatic Cleanup
+
+`delete_old_models.sh` deletes old model folders from the shared data directory
+and also deletes the matching gallery image from the shared images directory.
+
+The cleanup rules are configured at the top of the script:
+
+- `MIN_MODELS`: highest priority. The script never deletes below this number.
+- `MAX_MODELS`: second priority. If there are more models than this, the oldest
+  folders are deleted first.
+- `AGE_THRESHOLD`: third priority. Old folders are deleted only after the
+  minimum and maximum model rules are respected.
+
+### Allow `mada` To Run Cleanup With `sudo`
+
+The cleanup script deletes files from shared mount folders, so the `mada` user
+may need passwordless `sudo` permission for this script.
+
+Create a sudoers file with `visudo`:
+
+```bash
+sudo visudo -f /etc/sudoers.d/photogrammetry-cleanup
+```
+
+Add this line:
+
+```text
+mada ALL=(root) NOPASSWD: /home/mada/Photogrammetry/outside_screen/delete_old_models.sh
+```
+
+Then make sure the sudoers file has the correct permissions:
+
+```bash
+sudo chmod 440 /etc/sudoers.d/photogrammetry-cleanup
+```
+
+Use the exact deployed path to `delete_old_models.sh`. If the project is not in
+`/home/mada/Photogrammetry`, update the sudoers line to match the real path.
+
+### Run Cleanup Every Day At 2 AM
+
+Edit the `mada` user's crontab:
+
+```bash
+crontab -e
+```
+
+Add this line:
+
+```cron
+0 2 * * * sudo /home/mada/Photogrammetry/outside_screen/delete_old_models.sh
+```
+
+This runs the cleanup every day at 02:00. Cron uses a minimal environment, so
+the script uses absolute paths for the shared folders and log file.
