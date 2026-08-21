@@ -81,7 +81,7 @@ def get_nth_obj_in_folder(folder_path, n):
     """
     get the nth obj file and texture file in the given folder path
     """
-    items = os.listdir(folder_path)
+    items = sorted(os.listdir(folder_path))
     if len(items) == 0 or n >= len(items):
         return None
     n += 1
@@ -225,5 +225,4 @@ while running:
     render_model()
     pygame.display.flip()
     clock.tick(30)
-
 
