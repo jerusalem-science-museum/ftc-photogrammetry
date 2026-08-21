@@ -112,8 +112,9 @@ def load_current_model(state):
 
     if model_files.name != state.current_model_name:
         # Print only when switching models, not every rendered frame.
-        print(f"model path: {model_files.obj_file}")
-        print(f"texture path: {model_files.texture_file}")
+        # print(f"model path: {model_files.obj_file}")
+        # print(f"texture path: {model_files.texture_file}")
+        pass
 
     state.current_model = state.gallery.get_loaded_model(state.model_number)
     state.current_model_name = model_files.name

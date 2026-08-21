@@ -120,7 +120,7 @@ sudo visudo -f /etc/sudoers.d/photogrammetry-cleanup
 Add this line:
 
 ```text
-mada ALL=(root) NOPASSWD: /home/mada/Photogrammetry/outside_screen/delete_old_models.sh
+mada ALL=(root) NOPASSWD: /path/to/ftc-photogrammetry/movingcam/outside_screen/delete_old_models.sh
 ```
 
 Then make sure the sudoers file has the correct permissions:
@@ -129,8 +129,7 @@ Then make sure the sudoers file has the correct permissions:
 sudo chmod 440 /etc/sudoers.d/photogrammetry-cleanup
 ```
 
-Use the exact deployed path to `delete_old_models.sh`. If the project is not in
-`/home/mada/Photogrammetry`, update the sudoers line to match the real path.
+Use the exact deployed path to `delete_old_models.sh` in the sudoers line to match the real path.
 
 ### Run Cleanup Every Day At 2 AM
 
@@ -143,7 +142,7 @@ crontab -e
 Add this line:
 
 ```cron
-0 2 * * * sudo /home/mada/Photogrammetry/outside_screen/delete_old_models.sh
+0 2 * * * sudo /path/to/ftc-photogrammetry/movingcam/outside_screen/delete_old_models.sh
 ```
 
 This runs the cleanup every day at 02:00. Cron uses a minimal environment, so
