@@ -1,12 +1,14 @@
 from enum import Enum
 import pygame
+import os
+from pathlib import Path
 
 photogrammetry_local_data_path = r'/home/mada/photogrammetry_data'
 photogrammetry_local_images_path = r'/home/mada/photogrammetry_images'
 photogrammetry_shared_data_path = r'/media/mada/SAMBA1/shared_in/photogrammetry_data'  # NOT WORKING YET
 photogrammetry_shared_images_path = r'/media/mada/SAMBA1/shared_in/photogrammetry_images'  # NOT WORKING YET
 meshroom_batch_path = r'/home/mada/Meshroom-2023.3.0/meshroom_batch'
-config_file = r"/home/mada/Photogrammetry/main/settings_override"
+config_file = os.path.join(Path(__file__).resolve().parent, "settings_override")
 
 images_folder_name = "images"
 output_folder_name = "output"

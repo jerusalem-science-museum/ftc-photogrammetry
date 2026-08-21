@@ -85,6 +85,7 @@ def copy_model_to_shared_dir(session_path, shared_dir_path):
     # ignore cache and images folders
     try:
         shutil.copytree(session_path, shared_dir_path, ignore=shutil.ignore_patterns('cache','images'))
+
     except:
         print("ERROR COPYING TO SHARED DIRECTORY")
         logging.critical('ERROR WHILE COPYING TO SHARED DIRECTORY')
@@ -218,7 +219,7 @@ while True:
             model_stopwatch = None
             processing_stopwatch = None
             logging.info('copying object files to shared directory...')
-            # copy_model_to_shared_dir(session_name, os.path.join(photogrammetry_shared_data_path, timeString))
+            copy_model_to_shared_dir(session_name, os.path.join(photogrammetry_shared_data_path, timeString))
             logging.info('showing model on screen')
         elif time.time() - processing_stopwatch > PROCESSING_TIMEOUT: # if got to here then meshroom is still running
             logging.error('meshroom exceeded timeout - killing process')
