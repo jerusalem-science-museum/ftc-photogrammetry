@@ -5,9 +5,12 @@ from pywavefront import Wavefront
 
 
 class OBJ:
+    # Simple Wavefront OBJ loader that compiles geometry into an OpenGL list.
     generate_on_init = True
+
     @classmethod
     def loadTexture(cls, imagefile):
+        # Upload pygame image data into an OpenGL texture.
         surf = pygame.image.load(imagefile)
         image = pygame.image.tostring(surf, 'RGBA', 1)
         ix, iy = surf.get_rect().size
@@ -20,6 +23,7 @@ class OBJ:
 
     @classmethod
     def loadMaterial(cls, filename):
+        # Parse the MTL file and load any diffuse texture maps it references.
         contents = {}
         mtl = None
         dirname = os.path.dirname(filename)
@@ -43,6 +47,7 @@ class OBJ:
 
     def __init__(self, filename, swapyz=False):
         """Loads a Wavefront OBJ file. """
+        # These arrays store OBJ data using the same 1-based references as faces.
         self.vertices = []
         self.normals = []
         self.texcoords = []
@@ -56,22 +61,29 @@ class OBJ:
             values = line.split()
             if not values: continue
             if values[0] == 'v':
+                # Vertex position.
                 v = list(map(float, values[1:4]))
                 if swapyz:
+                    # Meshroom/OpenGL axes differ, so swap y/z for display.
                     v = v[0], v[2], v[1]
                 self.vertices.append(v)
             elif values[0] == 'vn':
+                # Vertex normal.
                 v = list(map(float, values[1:4]))
                 if swapyz:
                     v = v[0], v[2], v[1]
                 self.normals.append(v)
             elif values[0] == 'vt':
+                # Texture coordinate.
                 self.texcoords.append(list(map(float, values[1:3])))
             elif values[0] in ('usemtl', 'usemat'):
+                # Faces after this line use the named material.
                 material = values[1]
             elif values[0] == 'mtllib':
+                # Materials often contain the texture filename.
                 self.mtl = self.loadMaterial(os.path.join(dirname, values[1]))
             elif values[0] == 'f':
+                # Faces reference vertex/texture/normal arrays by index.
                 face = []
                 texcoords = []
                 norms = []
@@ -88,9 +100,11 @@ class OBJ:
                         norms.append(0)
                 self.faces.append((face, norms, texcoords, material))
         if self.generate_on_init:
+            # The viewer wants render-ready models immediately after loading.
             self.generate()
 
     def generate(self):
+        # Build a display list so cached models render quickly.
         self.gl_list = glGenLists(1)
         glNewList(self.gl_list, GL_COMPILE)
         glEnable(GL_TEXTURE_2D)
@@ -108,6 +122,7 @@ class OBJ:
 
             glBegin(GL_POLYGON)
             for i in range(len(vertices)):
+                # OBJ indices are 1-based, so subtract 1 for Python lists.
                 if normals[i] > 0:
                     glNormal3fv(self.normals[normals[i] - 1])
                 if texture_coords[i] > 0:
@@ -121,6 +136,7 @@ class OBJ:
         glCallList(self.gl_list)
 
     def free(self):
+        # Called when ModelGallery evicts a cached model.
         if self.gl_list:
             glDeleteLists(self.gl_list, 1)
             self.gl_list = 0
@@ -130,12 +146,14 @@ class OBJ:
             for material in getattr(self, "mtl", {}).values()
             if material.get("texture_Kd")
         }
+        # Several materials may point at the same texture, so delete unique IDs only.
         for texture_id in texture_ids:
             glDeleteTextures([texture_id])
 
 
 
 def get_central_axis_coordinates(obj_file_path):
+    # Kept for compatibility with older viewer experiments.
     # Load the object file
     obj = Wavefront(obj_file_path)
 
@@ -154,6 +172,8 @@ def get_central_axis_coordinates(obj_file_path):
     return avg_x, avg_z
 
 def center_object(file_path):
+    # Rewrite OBJ vertices so the model rotates around its own center.
+    # This edits the generated OBJ file in-place before the first cached load.
     # Step 1: Read the object file and parse its vertices
     with open(file_path, 'r') as file:
         lines = file.readlines()
