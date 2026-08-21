@@ -77,13 +77,13 @@ def display_timer(time, max_time):
     screen.blit(text, (text_x, text_y))
 
 
-def copy_model_to_oneDrive(session_path, drive_path):
+def copy_model_to_shared_dir(session_path, shared_dir_path):
     # ignore cache and images folders
     try:
-        shutil.copytree(session_path, drive_path, ignore=shutil.ignore_patterns('cache','images'))
+        shutil.copytree(session_path, shared_dir_path, ignore=shutil.ignore_patterns('cache','images'))
     except:
-        print("ERROR COPYING TO ONE DRIVE")
-        logging.critical('ERROR WHILE COPYING TO ONE DRIVE')
+        print("ERROR COPYING TO SHARED DIRECTORY")
+        logging.critical('ERROR WHILE COPYING TO SHARED DIRECTORY')
 
 def init_log(log_file_path):
     logging.basicConfig(filename=log_file_path, filemode='a', format='%(asctime)s ; %(message)s', level=logging.INFO)
@@ -213,8 +213,8 @@ while True:
             state = State.MODEL_VIEW
             model_stopwatch = None
             processing_stopwatch = None
-            logging.info('copying object files to one drive...')
-            # copy_model_to_oneDrive(session_name, os.path.join(photogrammetry_drive_data_path, timeString))
+            logging.info('copying object files to shared directory...')
+            # copy_model_to_shared_dir(session_name, os.path.join(photogrammetry_shared_data_path, timeString))
             logging.info('showing model on screen')
         elif time.time() - processing_stopwatch > PROCESSING_TIMEOUT: # if got to here then meshroom is still running
             logging.error('meshroom exceeded timeout - killing process')

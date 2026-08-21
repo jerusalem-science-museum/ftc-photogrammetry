@@ -51,8 +51,8 @@ def take_picture(image_folder, image_name, save_to_images_folder=False, timestam
     if save_to_images_folder and timestamp is not None:
         if not os.path.exists(photogrammetry_local_images_path):
             os.makedirs(photogrammetry_local_images_path, exist_ok=True)
-        # if not os.path.exists(photogrammetry_drive_images_path):
-        #     os.makedirs(photogrammetry_drive_images_path, exist_ok=True)
+        # if not os.path.exists(photogrammetry_shared_images_path):
+        #     os.makedirs(photogrammetry_shared_images_path, exist_ok=True)
         cv2.imwrite(os.path.join(photogrammetry_local_images_path, timestamp + image_format), frame)
-        # cv2.imwrite(os.path.join(photogrammetry_drive_images_path, timestamp + image_format), frame)
+        # cv2.imwrite(os.path.join(photogrammetry_shared_images_path, timestamp + image_format), frame)
     return True
